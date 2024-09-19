@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import statsmodels
+import matplotlib
 from statsmodels.tsa.arima.model import ARIMA
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
@@ -33,7 +34,7 @@ st.title("ARIMA Prediction Tool")
 # Data input
 data_file = st.file_uploader("Upload CSV file", type="csv")
 if data_file is not None:
-    df = pd.read_csv(data_file)
+    df = pd.read_csv(data_file, sep=";")
     
     # Column selection
     selected_column = st.selectbox("Select column for prediction", df.columns)
