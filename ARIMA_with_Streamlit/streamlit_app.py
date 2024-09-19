@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import statsmodels
 from statsmodels.tsa.arima.model import ARIMA
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
