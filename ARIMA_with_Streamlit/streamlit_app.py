@@ -1,9 +1,23 @@
-import streamlit as st
-import pandas as pd
-from statsmodels.tsa.arima.model import ARIMA
-
-
-# Define ARIMA prediction function (same as before)
+# Define ARIMA prediction function
+def arima_predictions(data, order, steps):
+    
+    # Data preprocessing (example: differencing)
+    data_diff = data.diff().dropna()
+    
+    model = ARIMA(data_diff, order=order)
+    model_fit = model.fit()
+    
+    # Model diagnostics
+    residuals = model_fit.resid
+    fig, ax = plt.subplots(1,2)
+    residuals.plot(title="Residuals", ax=ax[0])
+    residuals.plot(kind='kde', title='Density', ax=ax[1])
+    st.pyplot(fig)
+    st.write(sm.stats.acorr_ljungbox(residuals, lags=[10], return_df=True))
+    
+    predictions = model_fit.predict(start=len(data_diff), end=len(data_diff)+steps-1)
+    
+    return predictions
 
 # Streamlit app
 st.title("ARIMA Prediction Tool")
